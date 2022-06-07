@@ -1,0 +1,31 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader bf=new BufferedReader(new InputStreamReader(System.in));
+        char[] k=bf.readLine().toCharArray();
+        char[] ka=bf.readLine().toCharArray();
+
+        int[] c=new int[10];
+        int[] count=new int[10];
+        for(char i:k) count[i-48]++;
+        for(char i:ka) c[i-48]++;
+        Deque<Character> que=new ArrayDeque<>();
+        for(char i:k){
+            if(count[i-48]-c[i-48]==0) {
+                c[i-48]--;
+                count[i-48]--;
+                continue;
+            }
+            while(!que.isEmpty() && que.peekLast()<i && c[que.peekLast()-48]>0) {
+                c[que.pollLast()-48]--;
+            }
+            que.add(i);
+            count[i-48]--;
+        }
+        StringBuilder sb=new StringBuilder();
+        while(!que.isEmpty()) sb.append(que.poll());
+        System.out.println(sb);
+    }
+}
