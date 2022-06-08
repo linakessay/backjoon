@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader bf=new BufferedReader(new InputStreamReader(System.in));
+        int a=Integer.parseInt(bf.readLine());
+        ArrayList<long[]> kaa=new ArrayList<>();
+        PriorityQueue<Long> ka=new PriorityQueue<>();
+        long sum=0;
+        StringTokenizer st=new StringTokenizer(bf.readLine());
+        StringTokenizer st2=new StringTokenizer(bf.readLine());
+        for(int i=0; i<a; i++){
+            long n=Long.parseLong(st.nextToken());
+            sum+=n;
+            kaa.add(new long[]{n,Long.parseLong(st2.nextToken())});
+        }
+        kaa.sort((o1, o2) -> o2[1] - o1[1] > 0 ? 1 : -1);
+        sum-=kaa.get(0)[0];
+        for(int i=1; i<a-1; i++){
+            ka.add(kaa.get(i)[0]);
+            if(i%2==0) sum-=ka.poll();
+        }
+        System.out.println(sum);
+    }
+}
+// 1.B[i]를 큰 순서대로 나열한다면 첫번째는 무조건 b가 먹음
+// 2.B[0]을 b가 먹었다면 a는 우선순위큐에 2개를 넣고 작은거 하나 방출
+// 3.2를 반복한다면 priority queue에는 최대값을 이루는 수들이 모여있게된다.
